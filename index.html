@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#1e293b,#0f172a)}
+        .calculadora{width:320px;background:#111827;padding:20px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+        #display{width:100%;height:70px;border:none;border-radius:12px;margin-bottom:15px;padding:10px;font-size:2rem;text-align:right;background:#e5e7eb;color:#111827}
+        .botoes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+        button{height:60px;border:none;border-radius:12px;font-size:1.2rem;cursor:pointer;transition:.15s;background:#374151;color:#fff}
+        button:hover{transform:translateY(-2px);filter:brightness(1.1)}
+        .operador{background:#f59e0b}
+        .igual{background:#10b981;grid-column:span 2}
+        .limpar{background:#ef4444}
+        .zero{grid-column:span 2}
+    </style>
+
+</head>
+    <body>
+        <div class="calculadora">
+        <input type="text" id="display" disabled>
+            <div class="botoes">
+                <button class="limpar" onclick="limparDisplay()">C</button>
+                <button onclick="apagarUltimo()">⌫</button>
+                <button onclick="adicionar('%')">%</button>
+                <button class="operador" onclick="adicionar('/')">÷</button>
+                <button onclick="adicionar('7')">7</button>
+                <button onclick="adicionar('8')">8</button>
+                <button onclick="adicionar('9')">9</button>
+                <button class="operador" onclick="adicionar('*')">×</button>
+                <button onclick="adicionar('4')">4</button>
+                <button onclick="adicionar('5')">5</button>
+                <button onclick="adicionar('6')">6</button>
+                <button class="operador" onclick="adicionar('-')">−</button>
+                <button onclick="adicionar('1')">1</button>
+                <button onclick="adicionar('2')">2</button>
+                <button onclick="adicionar('3')">3</button>
+                <button class="operador" onclick="adicionar('+')">+</button>
+                <button class="zero" onclick="adicionar('0')">0</button>
+                <button onclick="adicionar('.')">.</button>
+                <button class="igual" onclick="calcular()">=</button>
+            </div>
+        </div>
+        <script>
+            const display=document.getElementById('display');
+            function adicionar(valor){display.value+=valor;}
+            function limparDisplay(){display.value='';}
+            function apagarUltimo(){display.value=display.value.slice(0,-1);}
+            function calcular(){
+            try{
+            display.value=eval(display.value.replace('%','/100'));
+            }catch(e){display.value='Erro';}
+            }
+            document.addEventListener('keydown',e=>{
+            const permitidos='0123456789+-*/.%';
+            if(permitidos.includes(e.key)) adicionar(e.key);
+            if(e.key==='Enter') calcular();
+            if(e.key==='Backspace') apagarUltimo();
+            if(e.key==='Escape') limparDisplay();
+            });
+        </script>
+    </body>
+</html>
